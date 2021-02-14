@@ -22,7 +22,7 @@ public class CharacterController : MonoBehaviour{
     }
 
     void FixedUpdate() {
-        var input = Input.GetAxis("Horizontal");
+        var input = Input.GetAxisRaw("Horizontal");
         _rigidBody.velocity = new Vector2(input * _speed, 0);
 
         Debug.Log(input);
@@ -35,10 +35,10 @@ public class CharacterController : MonoBehaviour{
         var direction = 0.0f;
 
         if(xInput > 0) {
-            direction = 1f;
+            direction = -1f;
         }
         else if(xInput < 0) {
-            direction = -1f;
+            direction = 1f;
         }
         else {
             direction = 0f;
