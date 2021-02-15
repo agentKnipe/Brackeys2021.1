@@ -13,6 +13,8 @@ public class CharacterController : MonoBehaviour{
 
     private Animator _animator;
 
+    private float _horizontalMove = 0f;
+
     // Start is called before the first frame update
     void Start(){
         _animator = GetComponent<Animator>();
@@ -21,6 +23,7 @@ public class CharacterController : MonoBehaviour{
 
     // Update is called once per frame
     void Update(){
+        _horizontalMove = Input.GetAxis("Horizontal");
     }
 
     void FixedUpdate() {
@@ -28,11 +31,9 @@ public class CharacterController : MonoBehaviour{
     }
 
     private void Move() {
-        float horizontalInput = Input.GetAxis("Horizontal");
-
         // Handles the walking/running animation. Should likely be moved to a function but will
         // worry about it when/if there are more animations.
-        if(horizontalInput != 0) {
+        if(_horizontalMove != 0) {
             _animator.SetBool("walking", true);
         } else {
             _animator.SetBool("walking", false);
@@ -41,7 +42,7 @@ public class CharacterController : MonoBehaviour{
         // Set the velocity to the frame normalized time * the input on the x and maintain the y
         // velocity so that gravity works correctly.
         Vector2 velocity = new Vector2(
-            horizontalInput * _speed * Time.deltaTime,
+            _horizontalMove * _speed * Time.fixedDeltaTime,
             _rigidbody.velocity.y
         );
 
