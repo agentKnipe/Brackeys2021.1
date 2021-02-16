@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour{
+
+
     private bool _facingRight = false;
 
     [SerializeField]
