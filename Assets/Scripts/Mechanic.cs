@@ -23,7 +23,7 @@ public abstract class Mechanic : MonoBehaviour
     CharacterController controller;
     protected Animator mechanicAnimator;
 
-    private void Start() {
+    protected virtual void Start() {
         mechanicAnimator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
     }
