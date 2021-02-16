@@ -12,15 +12,20 @@ public class MechanicController : MonoBehaviour
     [Tooltip("Is played when any of the provided mechanic keys are pressed")]
     [SerializeField]
     ParticleSystem poofEffect;
-
-    CharacterController controller;
     Animator characterAnimator;
+    private LevelManager _levelManager;
+
 
     // Start is called before the first frame update
     void Start()
     {
         characterAnimator = GetComponent<Animator>();
-        controller = GetComponent<CharacterController>();
+        _levelManager = LevelManager.LevelManagerInstance;
+
+    }
+
+    private bool CanPerformMechanic(Mechanic m) {
+        return _levelManager.AntCount >= m.cost;
     }
 
     // Update is called once per frame
@@ -38,11 +43,14 @@ public class MechanicController : MonoBehaviour
 
     // A coroutine so that there can be a delay between the poof effect and the mechanic starting.
     IEnumerator StartMechanic(Mechanic m) {
-        controller.enabled = false;
-        ParticleSystem effect = Instantiate(poofEffect, transform.position, transform.rotation);
-        effect.gameObject.transform.localScale *= m.size;
-        yield return new WaitForSeconds(m.delay);
-        characterAnimator.SetTrigger("start_mechanic");
-        m.onStartCallback();
+        if(!CanPerformMechanic(m)) {
+            Debug.Log("Dont have enough ants to spend: Probably should display this on screen");
+        } else {
+            _levelManager.ExpendAnts(m.cost);
+            ParticleSystem effect = Instantiate(poofEffect, transform.position, transform.rotation);
+            effect.gameObject.transform.localScale *= m.size;
+            yield return new WaitForSeconds(m.delay);
+            m.StartMechanic();
+        }
     }
 }

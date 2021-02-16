@@ -39,7 +39,7 @@ public class Slingshot : Mechanic
             _rb.velocity = slingForce;
 
             _controlling = false;
-            mechanicAnimator.SetBool("is_slingshotting", false);
+            _mechanicAnimator.SetBool("is_slingshotting", false);
             StartCoroutine(StopMechanic());
         }
 
@@ -47,10 +47,10 @@ public class Slingshot : Mechanic
 
     }
 
-    public override void onStartCallback()
+    protected override void onStartCallback()
     {
         _controlling = true;
-        mechanicAnimator.SetBool("is_slingshotting", true);
+        _mechanicAnimator.SetBool("is_slingshotting", true);
     }
 
     private IEnumerator StopMechanic() {
