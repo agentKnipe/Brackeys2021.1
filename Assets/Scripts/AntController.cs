@@ -39,6 +39,15 @@ public class AntController : MonoBehaviour{
         Move();
     }
 
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.tag == "Player") {
+            
+            LevelManager.LevelManagerInstance.CollectAnt(this.gameObject.GetInstanceID());
+
+            Destroy();
+        }
+    }
+
     private void Move() {
         // Handles the walking/running animation. Should likely be moved to a function but will
         // worry about it when/if there are more animations.
@@ -78,5 +87,11 @@ public class AntController : MonoBehaviour{
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+    }
+
+    public void Destroy() {
+        this.gameObject.SetActive(false);
+
+        Destroy(gameObject, 5);
     }
 }

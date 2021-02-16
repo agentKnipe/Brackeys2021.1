@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 1869421484438120034}
   m_Layer: 0
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,7 +166,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.01787138, y: 0.22101432}
+  m_Offset: {x: 0.008525163, y: 0.22101432}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -177,7 +177,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1737475, y: 0.6959764}
+  m_Size: {x: 1.19244, y: 0.6959764}
   m_EdgeRadius: 0
 --- !u!58 &1869421484438120045
 CircleCollider2D:
@@ -192,9 +192,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.007490158, y: 0}
+  m_Offset: {x: 0.013720827, y: 0}
   serializedVersion: 2
-  m_Radius: 0.58182466
+  m_Radius: 0.60363245
 --- !u!95 &1869421484438120034
 Animator:
   serializedVersion: 3
