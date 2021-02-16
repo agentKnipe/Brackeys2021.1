@@ -100,11 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f1599402ee5df64595646dc016df24e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keys: 0101000002010000
+  keys: 31000000
   mechanics:
   - {fileID: 1682299447515420730}
-  - {fileID: 0}
-  poofEffect: {fileID: 637606072507026024, guid: 950f3a49807b34146895f6736cc35dcd,
+  poofEffect: {fileID: 1677778584738235471, guid: 90ca09a30eb469e419192911b65026f0,
     type: 3}
 --- !u!114 &1682299447515420730
 MonoBehaviour:
@@ -118,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8679a4109c8ac048b7991de2467c7ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 3
+  size: 1
   delay: 0
 --- !u!50 &1869421484438120041
 Rigidbody2D:
