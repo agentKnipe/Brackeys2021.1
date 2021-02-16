@@ -12,7 +12,7 @@ public class MechanicController : MonoBehaviour
     List<Mechanic> mechanics;
 
     [SerializeField]
-    GameObject poofEffect;
+    ParticleSystem poofEffect;
 
     Animator characterAnimator;
 
@@ -60,8 +60,8 @@ public class MechanicController : MonoBehaviour
     }
 
     IEnumerator StartMechanic(Mechanic m) {
-        GameObject effect = Instantiate(poofEffect, transform.position, transform.rotation);
-        effect.transform.localScale *= m.size;
+        ParticleSystem effect = Instantiate(poofEffect, transform.position, transform.rotation);
+        effect.gameObject.transform.localScale *= m.size;
         yield return new WaitForSeconds(m.delay);
         characterAnimator.SetTrigger("start_mechanic");
         m.onStartCallback();
