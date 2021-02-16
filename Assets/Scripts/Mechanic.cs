@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mechanic : MonoBehaviour
+public abstract class Mechanic : MonoBehaviour
 {
     [Tooltip("Used to control the size of the poof animation used to obscure the player")]
     [SerializeField]
