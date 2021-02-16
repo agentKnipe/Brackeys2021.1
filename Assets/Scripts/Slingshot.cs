@@ -58,6 +58,7 @@ public class Slingshot : Mechanic
     }
 
     private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(gameObject.transform.position, _maxSlingForce/_slingForceMultiplier);
     }
 }
