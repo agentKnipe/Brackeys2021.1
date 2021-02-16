@@ -42,3 +42,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ShroudingEffect
+    uniqueID: 1061610099
+    locked: 0
