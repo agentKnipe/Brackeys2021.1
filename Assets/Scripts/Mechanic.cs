@@ -27,12 +27,14 @@ public abstract class Mechanic : MonoBehaviour
     protected virtual void Start() {
         _mechanicAnimator = GetComponent<Animator>();
         _controller = GetComponent<CharacterController>();
+        enabled = false;
     }
 
 
 
     public void StartMechanic() {
         _controller.enabled = false;
+        enabled = true;
         _mechanicAnimator.SetTrigger("start_mechanic");
         onStartCallback();
     }
@@ -43,6 +45,7 @@ public abstract class Mechanic : MonoBehaviour
 
     protected void Finish() {
         _controller.enabled = true;
+        enabled = false;
         _mechanicAnimator.SetTrigger("end_mechanic");
     }
 }
