@@ -20,20 +20,29 @@ public abstract class Mechanic : MonoBehaviour
     [SerializeField]
     public int cost;
 
-    CharacterController controller;
-    protected Animator mechanicAnimator;
+
+    CharacterController _controller;
+    protected Animator _mechanicAnimator;
 
     protected virtual void Start() {
-        mechanicAnimator = GetComponent<Animator>();
-        controller = GetComponent<CharacterController>();
+        _mechanicAnimator = GetComponent<Animator>();
+        _controller = GetComponent<CharacterController>();
     }
 
-    public virtual void onStartCallback() {
+
+
+    public void StartMechanic() {
+        _controller.enabled = false;
+        _mechanicAnimator.SetTrigger("start_mechanic");
+        onStartCallback();
+    }
+
+    protected virtual void onStartCallback() {
         throw new System.Exception("Not Implemented");
     }
 
     protected void Finish() {
-        controller.enabled = true;
-        mechanicAnimator.SetTrigger("end_mechanic");
+        _controller.enabled = true;
+        _mechanicAnimator.SetTrigger("end_mechanic");
     }
 }
