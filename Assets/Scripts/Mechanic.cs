@@ -12,6 +12,14 @@ public abstract class Mechanic : MonoBehaviour
     [SerializeField]
     public float delay = 0f;
 
+    [Tooltip("Which key will activate the mechanic")]
+    [SerializeField]
+    public KeyCode key;
+
+    [Tooltip("The cost to use the mechanic")]
+    [SerializeField]
+    public int cost;
+
     protected Animator mechanicAnimator;
 
     private void Start() {

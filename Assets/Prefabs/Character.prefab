@@ -100,7 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f1599402ee5df64595646dc016df24e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keys: 31000000
   mechanics:
   - {fileID: 1682299447515420730}
   poofEffect: {fileID: 1677778584738235471, guid: 90ca09a30eb469e419192911b65026f0,
@@ -119,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 1
   delay: 0
+  key: 49
 --- !u!50 &1869421484438120041
 Rigidbody2D:
   serializedVersion: 4
