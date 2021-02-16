@@ -1557,6 +1557,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1682299447515420730, guid: cc59e7fef85e48941b2f724f52196ab7,
         type: 3}
+      propertyPath: size
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1682299447515420730, guid: cc59e7fef85e48941b2f724f52196ab7,
+        type: 3}
       propertyPath: _slingForceMultiplier
       value: 8
       objectReference: {fileID: 0}
