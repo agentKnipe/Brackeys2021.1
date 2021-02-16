@@ -20,6 +20,7 @@ public class MechanicController : MonoBehaviour
     void Start()
     {
         characterAnimator = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -37,6 +38,7 @@ public class MechanicController : MonoBehaviour
 
     // A coroutine so that there can be a delay between the poof effect and the mechanic starting.
     IEnumerator StartMechanic(Mechanic m) {
+        controller.enabled = false;
         ParticleSystem effect = Instantiate(poofEffect, transform.position, transform.rotation);
         effect.gameObject.transform.localScale *= m.size;
         yield return new WaitForSeconds(m.delay);

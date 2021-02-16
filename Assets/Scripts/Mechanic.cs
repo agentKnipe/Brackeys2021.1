@@ -20,10 +20,12 @@ public abstract class Mechanic : MonoBehaviour
     [SerializeField]
     public int cost;
 
+    CharacterController controller;
     protected Animator mechanicAnimator;
 
     private void Start() {
         mechanicAnimator = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
     }
 
     public virtual void onStartCallback() {
@@ -31,6 +33,7 @@ public abstract class Mechanic : MonoBehaviour
     }
 
     protected void Finish() {
+        controller.enabled = true;
         mechanicAnimator.SetTrigger("end_mechanic");
     }
 }
