@@ -121,7 +121,7 @@ MonoBehaviour:
   key: 49
   cost: 1
   _maxSlingForce: 8
-  _slingForceMultiplier: 8
+  _slingForceMultiplier: 2.5
 --- !u!50 &1869421484438120041
 Rigidbody2D:
   serializedVersion: 4
