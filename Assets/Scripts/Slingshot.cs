@@ -42,9 +42,6 @@ public class Slingshot : Mechanic
             _mechanicAnimator.SetBool("is_slingshotting", false);
             StartCoroutine(StopMechanic());
         }
-
-
-
     }
 
     protected override void onStartCallback()
@@ -58,5 +55,9 @@ public class Slingshot : Mechanic
         if(!_controlling) {
             Finish();
         }
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.DrawWireSphere(gameObject.transform.position, _maxSlingForce/_slingForceMultiplier);
     }
 }
