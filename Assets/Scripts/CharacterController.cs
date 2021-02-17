@@ -10,8 +10,6 @@ public class CharacterController : MonoBehaviour{
 
     private int _reverseFactor = 1;
 
-    private int _rotationCooldown = 0;
-
     private bool _facingRight = false;
 
     [SerializeField]
@@ -49,8 +47,7 @@ public class CharacterController : MonoBehaviour{
     }
 
     void FixedUpdate() {
-        if (_rotationCooldown > 0) _rotationCooldown--;
-        if (_rotationCooldown == 0) CheckIfShouldRotate();
+        CheckIfShouldRotate();
         _rigidbody.AddForce(new Vector2(xForce, yForce));
     }
 
@@ -148,7 +145,6 @@ public class CharacterController : MonoBehaviour{
             _gravityDirection++;
             if (_gravityDirection > 3) _gravityDirection = 0;
         }
-        _rotationCooldown = 10;
     }
 
     private void CheckIfShouldRotate() {
@@ -165,7 +161,6 @@ public class CharacterController : MonoBehaviour{
                 handleRotation(false);
             }
             transform.Rotate(0f, 0f, 90f);
-            return;
         }
     }
 
