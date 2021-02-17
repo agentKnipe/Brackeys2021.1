@@ -32,6 +32,10 @@ public class CharacterController : MonoBehaviour{
     [SerializeField]
     private LayerMask _platformLayerMask;
 
+    [Tooltip("How far ahead of the ant the raycasts will look for determining whether to stick to the next wall")]
+    [SerializeField]
+    float forwardLookAhead = 1f;
+
     // Start is called before the first frame update
     void Start(){
         yForce = -5f;
@@ -43,16 +47,15 @@ public class CharacterController : MonoBehaviour{
     // Update is called once per frame
     void Update(){
         _horizontalMove = Input.GetAxis("Horizontal");
-        Move();
     }
 
     void FixedUpdate() {
+        Move();
         CheckIfShouldRotate();
         _rigidbody.AddForce(new Vector2(xForce, yForce));
     }
 
     private bool isGrounded() {
-        float extraHeightCompensation = 1f;
         Vector2 gravityVector;
         gravityVector = _directionVectors[_gravityDirection];
         RaycastHit2D raycastHit = Physics2D.BoxCast(
@@ -60,14 +63,14 @@ public class CharacterController : MonoBehaviour{
             _boxCollider2D.bounds.size,
             0f,
             gravityVector,
-            extraHeightCompensation,
+            forwardLookAhead,
             _platformLayerMask
         );
         return raycastHit.collider != null;
     }
 
     private bool isFacingWall() {
-        float extraHeightCompensation = 1f;
+
         Vector2 gravityVector;
         int index;
         if (_facingRight) {
@@ -83,9 +86,10 @@ public class CharacterController : MonoBehaviour{
             _boxCollider2D.bounds.size/100,
             0f,
             gravityVector,
-            extraHeightCompensation,
+            forwardLookAhead,
             _platformLayerMask
         );
+        Debug.DrawRay(_boxCollider2D.bounds.center, gravityVector, Color.blue);
         return raycastHit.collider != null;
     }
 
