@@ -4,7 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour{
+    // Let 0 = down, 1 = right, 2 = up, 3 = left
+    private int _gravityDirection = 0;
+    private Vector2[] _directionVectors = {Vector2.down, Vector2.right, Vector2.up, Vector2.left};
 
+    private int _reverseFactor = 1;
+
+    private int _rotationCooldown = 0;
 
     private bool _facingRight = false;
 
@@ -13,23 +19,77 @@ public class CharacterController : MonoBehaviour{
 
     private Rigidbody2D _rigidbody;
 
+    private BoxCollider2D _boxCollider2D;
+
     private Animator _animator;
 
     private float _horizontalMove = 0f;
 
+    public float yForce, xForce, temp = 0f;
+
+    private Vector2 velocity;
+
+    private Vector3 previousLocation;
+
+    [SerializeField]
+    private LayerMask _platformLayerMask;
+
     // Start is called before the first frame update
     void Start(){
+        yForce = -5f;
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
+        _boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
     void Update(){
         _horizontalMove = Input.GetAxis("Horizontal");
+        Move();
     }
 
     void FixedUpdate() {
-        Move();
+        if (_rotationCooldown > 0) _rotationCooldown--;
+        if (_rotationCooldown == 0) CheckIfShouldRotate();
+        _rigidbody.AddForce(new Vector2(xForce, yForce));
+    }
+
+    private bool isGrounded() {
+        float extraHeightCompensation = 1f;
+        Vector2 gravityVector;
+        gravityVector = _directionVectors[_gravityDirection];
+        RaycastHit2D raycastHit = Physics2D.BoxCast(
+            _boxCollider2D.bounds.center,
+            _boxCollider2D.bounds.size,
+            0f,
+            gravityVector,
+            extraHeightCompensation,
+            _platformLayerMask
+        );
+        return raycastHit.collider != null;
+    }
+
+    private bool isFacingWall() {
+        float extraHeightCompensation = 1f;
+        Vector2 gravityVector;
+        int index;
+        if (_facingRight) {
+            index = _gravityDirection + 1;
+            if (index > 3) index = 0;
+        } else {
+            index = _gravityDirection - 1;
+            if (index < 0) index = 3;
+        }
+        gravityVector = _directionVectors[index];
+        RaycastHit2D raycastHit = Physics2D.BoxCast(
+            _boxCollider2D.bounds.center,
+            _boxCollider2D.bounds.size/100,
+            0f,
+            gravityVector,
+            extraHeightCompensation,
+            _platformLayerMask
+        );
+        return raycastHit.collider != null;
     }
 
     private void Move() {
@@ -40,18 +100,73 @@ public class CharacterController : MonoBehaviour{
         } else {
             _animator.SetBool("walking", false);
         }
-
+        if (_gravityDirection > 1) {
+            _reverseFactor = -1;
+        } else {
+            _reverseFactor = 1;
+        }
         // Set the velocity to the frame normalized time * the input on the x and maintain the y
         // velocity so that gravity works correctly.
-        Vector2 velocity = new Vector2(
-            _horizontalMove * _speed * Time.fixedDeltaTime,
-            _rigidbody.velocity.y
-        );
+        if (_gravityDirection % 2 == 0) {
+            velocity = new Vector2(
+                _horizontalMove * _speed * Time.fixedDeltaTime * _reverseFactor,
+                _rigidbody.velocity.y
+            );
+        } else {
+            velocity = new Vector2(
+                _rigidbody.velocity.x,
+                _horizontalMove * _speed * Time.fixedDeltaTime * _reverseFactor
+            );
+        }
 
         // Update the velocity with the player input velocity
         _rigidbody.velocity = velocity;
+        if (Mathf.Abs(_horizontalMove) > 0) {
+            if (isFacingWall()) {
+                if (_facingRight) {
+                    temp = xForce;
+                    xForce = -yForce;
+                    yForce = temp;
+                    handleRotation(false);
+                } else {
+                    temp = -xForce;
+                    xForce = yForce;
+                    yForce = temp;
+                    handleRotation(true);
+                }
+                transform.Rotate(0f, 0f, -90f);
+            }
+        }
+        CheckIfShouldFlip(_horizontalMove);
+    }
 
-        CheckIfShouldFlip(velocity.x);
+    private void handleRotation(bool isClockwiseRot) {
+        if (isClockwiseRot) {
+            _gravityDirection--;
+            if (_gravityDirection < 0) _gravityDirection = 3;
+        } else {
+            _gravityDirection++;
+            if (_gravityDirection > 3) _gravityDirection = 0;
+        }
+        _rotationCooldown = 10;
+    }
+
+    private void CheckIfShouldRotate() {
+        if (!isGrounded()) {
+            if (_facingRight) {
+                temp = -xForce;
+                xForce = yForce;
+                yForce = temp;
+                handleRotation(true);
+            } else {
+                temp = xForce;
+                xForce = -yForce;
+                yForce = temp;
+                handleRotation(false);
+            }
+            transform.Rotate(0f, 0f, 90f);
+            return;
+        }
     }
 
     private void CheckIfShouldFlip(float xInput) {
@@ -65,9 +180,7 @@ public class CharacterController : MonoBehaviour{
     private void Flip() {
         _facingRight = !_facingRight;
 
-        // Multiply the player's x local scale by -1.
-		Vector3 scale = transform.localScale;
-		scale.x *= -1;
-		transform.localScale = scale;
+        transform.Rotate(0.0f, 180.0f, 0.0f);
     }
 }
+

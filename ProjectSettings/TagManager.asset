@@ -14,7 +14,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Ground
   - 
   - 
   - 
@@ -42,6 +42,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 858182867
+    locked: 0
+  - name: Ground
+    uniqueID: 2316752221
+    locked: 0
+  - name: Objects
+    uniqueID: 613834019
   - name: ShroudingEffect
     uniqueID: 1061610099
     locked: 0
