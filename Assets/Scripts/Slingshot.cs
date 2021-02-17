@@ -5,15 +5,64 @@ using UnityEngine;
 [System.Serializable]
 public class Slingshot : Mechanic
 {
-    public override void onStartCallback()
-    {
-        mechanicAnimator.SetBool("is_slingshotting", true);
-        StartCoroutine(StopAnimation());
+    [SerializeField]
+    float _maxSlingForce = 8f;
+
+    [SerializeField]
+    float _slingForceMultiplier = 2f;
+
+    private bool _controlling = false;
+    private Rigidbody2D _rb;
+
+    protected override void Start() {
+        base.Start();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
-    IEnumerator StopAnimation() {
-        yield return new WaitForSeconds(10);
-        mechanicAnimator.SetBool("is_slingshotting", false);
-        Finish();
+    private void Update() {
+        if(!_controlling)
+            return;
+
+        if(Input.GetButtonDown("Fire1")) {
+            FireSlingshot();
+
+            _controlling = false;
+            _mechanicAnimator.SetBool("is_slingshotting", false);
+            StartCoroutine(StopMechanic());
+        }
+    }
+
+    private void FireSlingshot() {
+        // Move it up a bit so it doesnt get stuck on the ground
+        Vector3 position = gameObject.transform.position;
+        position.y += 0.5f;
+        gameObject.transform.position = position;
+
+        Vector3 mousePos = Input.mousePosition;
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        Vector2 direction = worldPos - gameObject.transform.position;
+        Vector2 slingForce = direction * _slingForceMultiplier;
+        slingForce = Vector2.ClampMagnitude(slingForce, _maxSlingForce);
+
+        _rb.velocity = slingForce;
+    }
+
+    protected override void onStartCallback()
+    {
+        _controlling = true;
+        _mechanicAnimator.SetBool("is_slingshotting", true);
+    }
+
+    private IEnumerator StopMechanic() {
+        yield return new WaitForSeconds(1.5f);
+
+        if(!_controlling)
+            Finish();
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(gameObject.transform.position, _maxSlingForce/_slingForceMultiplier);
     }
 }

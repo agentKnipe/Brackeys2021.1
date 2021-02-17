@@ -12,17 +12,51 @@ public abstract class Mechanic : MonoBehaviour
     [SerializeField]
     public float delay = 0f;
 
-    protected Animator mechanicAnimator;
+    [Tooltip("Which key will activate the mechanic")]
+    [SerializeField]
+    public KeyCode key;
 
-    private void Start() {
-        mechanicAnimator = GetComponent<Animator>();
+    [Tooltip("The cost to use the mechanic")]
+    [SerializeField]
+    public int cost;
+
+
+    CharacterController _controller;
+    protected Animator _mechanicAnimator;
+
+    protected virtual void Start() {
+        _mechanicAnimator = GetComponent<Animator>();
+        _controller = GetComponent<CharacterController>();
+        enabled = false;
     }
 
-    public virtual void onStartCallback() {
+
+    /// <summary>
+    /// Removes control from the character controller and sets the start_mechanic trigger in the
+    /// animator
+    /// </summary>
+    public void StartMechanic() {
+        _controller.enabled = false;
+        enabled = true;
+        _mechanicAnimator.SetTrigger("start_mechanic");
+        onStartCallback();
+    }
+
+    /// <summary>
+    /// A callback function that is called when a mechanic is started to allow and entry point into
+    /// the mechanic
+    /// </summary>
+    protected virtual void onStartCallback() {
         throw new System.Exception("Not Implemented");
     }
 
+    /// <summary>
+    /// A function that should be called when a mechanic is finished. It triggers the end_mechanic
+    /// trigger in the animator and gives control back to the character controller
+    /// </summary>
     protected void Finish() {
-        mechanicAnimator.SetTrigger("end_mechanic");
+        _controller.enabled = true;
+        enabled = false;
+        _mechanicAnimator.SetTrigger("end_mechanic");
     }
 }
