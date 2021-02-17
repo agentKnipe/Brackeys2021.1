@@ -34,6 +34,9 @@ public class CharacterController : MonoBehaviour{
     [SerializeField]
     private LayerMask _platformLayerMask;
 
+    [SerializeField]
+    private LayerMask _waterLayerMask;
+
     // Start is called before the first frame update
     void Start(){
         yForce = -5f;
@@ -45,6 +48,7 @@ public class CharacterController : MonoBehaviour{
     // Update is called once per frame
     void Update(){
         _horizontalMove = Input.GetAxis("Horizontal");
+
         Move();
     }
 
@@ -52,6 +56,12 @@ public class CharacterController : MonoBehaviour{
         if (_rotationCooldown > 0) _rotationCooldown--;
         if (_rotationCooldown == 0) CheckIfShouldRotate();
         _rigidbody.AddForce(new Vector2(xForce, yForce));
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.otherCollider.IsTouchingLayers(_waterLayerMask.value)) {
+            LevelManager.LevelManagerInstance.PlayerDied();
+        }
     }
 
     private bool isGrounded() {

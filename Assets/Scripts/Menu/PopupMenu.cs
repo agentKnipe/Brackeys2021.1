@@ -7,7 +7,11 @@ public class PopupMenu : MonoBehaviour
 {
     private bool _paused = false;
 
-    public GameObject PausePanel;
+    [SerializeField]
+    private GameObject PausePanel;
+
+    [SerializeField]
+    private GameObject DeathPanel; //Maybe not the best name?
 
     // Update is called once per frame
     void Update() {
@@ -19,6 +23,18 @@ public class PopupMenu : MonoBehaviour
 
     public void PauseGame() {
         PausePanel.SetActive(!PausePanel.activeSelf);
+        _paused = !_paused;
+
+        if (_paused) {
+            Time.timeScale = 0f;
+        }
+        else {
+            Time.timeScale = 1f;
+        }
+    }
+
+    public void DeathPopup() {
+        DeathPanel.SetActive(!PausePanel.activeSelf);
         _paused = !_paused;
 
         if (_paused) {
