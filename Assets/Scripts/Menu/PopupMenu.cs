@@ -46,12 +46,12 @@ public class PopupMenu : MonoBehaviour
     }
 
     public void MainMenu() {
+        Time.timeScale = 1f; //TODO: make a scene manager to prevent having to do this?
         SceneManager.LoadScene("MainMenu");
     }
 
     public void RestartLevel() {
-        var activeScene = SceneManager.GetActiveScene();
-
-        SceneManager.LoadScene(activeScene.name);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
