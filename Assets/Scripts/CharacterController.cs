@@ -32,9 +32,14 @@ public class CharacterController : MonoBehaviour{
     [SerializeField]
     private LayerMask _platformLayerMask;
 
+
     [Tooltip("How far ahead of the ant the raycasts will look for determining whether to stick to the next wall")]
     [SerializeField]
     float forwardLookAhead = 1f;
+
+    [SerializeField]
+    private LayerMask _waterLayerMask;
+
 
     // Start is called before the first frame update
     void Start(){
@@ -59,7 +64,14 @@ public class CharacterController : MonoBehaviour{
         _rigidbody.AddForce(new Vector2(xForce, yForce));
     }
 
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.otherCollider.IsTouchingLayers(_waterLayerMask.value)) {
+            LevelManager.LevelManagerInstance.PlayerDied();
+        }
+    }
+
     private bool isGrounded(out RaycastHit2D raycastHit) {
+        float extraHeightCompensation = 1f;
         Vector2 gravityVector;
         gravityVector = _directionVectors[_gravityDirection];
         raycastHit = Physics2D.BoxCast(

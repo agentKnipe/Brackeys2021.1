@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour{
 
     //TODO: this feels hacky, maybe a better way to track this?
     private List<int> _destroyedInstances = new List<int>();
+    private PopupMenu _popupMenu;
 
     [SerializeField]
     private Text _antCount;
@@ -32,13 +33,17 @@ public class LevelManager : MonoBehaviour{
     // Start is called before the first frame update
     void Start(){
         //_antCount = GetComponent<Text>();
-
+        _popupMenu = GetComponent<PopupMenu>();
         UpdateCount();
     }
 
     // Update is called once per frame
     void Update() { 
         
+    }
+
+    public void PlayerDied() {
+        _popupMenu.DeathPopup();
     }
 
     public void CollectAnt(int instanceID) {
