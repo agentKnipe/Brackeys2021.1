@@ -84,13 +84,6 @@ public class Slingshot : Mechanic
         return slingForce;
     }
 
-    // private IEnumerator StopMechanic() {
-    //     yield return new WaitForSeconds(1.5f);
-
-    //     if (!_controlling)
-    //         Finish();
-    // }
-
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(gameObject.transform.position, _maxSlingForce/_slingForceMultiplier);
