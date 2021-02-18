@@ -41,25 +41,30 @@ public class CharacterController : MonoBehaviour{
     private LayerMask _waterLayerMask;
     [SerializeField]
     private float groundRayLength = 0.5f;
+    [SerializeField]
+    private float gravityForce = 6f;
+    private SpriteRenderer _renderer;
 
 
     // Start is called before the first frame update
     void Start(){
-        yForce = -6f;
+        yForce = gravityForce;
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _circleCollider2D = GetComponent<CircleCollider2D>();
+        _renderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update(){
+        if(transform.localRotation.x == 1) {
+            transform.Rotate(180f, 0, 180f);
+        }
+
         _horizontalMove = Input.GetAxis("Horizontal");
 
         if(!isGrounded(out RaycastHit2D hit)) {
-            // _rigidbody.gravityScale = 1;
-            transform.rotation = new Quaternion(0, 0, 0, 0);
-        } else {
-            // _rigidbody.gravityScale = 0;
+            transform.localRotation = new Quaternion(0, 0, 0, 0);
         }
     }
 
@@ -181,19 +186,13 @@ public class CharacterController : MonoBehaviour{
         if (Mathf.Abs(_horizontalMove) > 0) {
             if (isFacingWall()) {
                 if (_facingRight) {
-                    temp = xForce;
-                    xForce = -yForce;
-                    yForce = temp;
                     handleRotation(false);
                 } else {
-                    temp = -xForce;
-                    xForce = yForce;
-                    yForce = temp;
                     handleRotation(true);
                 }
-                transform.Rotate(0f, 0f, -90f);
             }
         }
+
         CheckIfShouldFlip(_horizontalMove);
     }
 
@@ -205,7 +204,6 @@ public class CharacterController : MonoBehaviour{
             _gravityDirection++;
             if (_gravityDirection > 3) _gravityDirection = 0;
         }
-        transform.Rotate(0f, 0f, 90f);
     }
 
     private void CheckIfShouldRotate() {
@@ -216,9 +214,9 @@ public class CharacterController : MonoBehaviour{
                 handleRotation(false);
         } else {
             // If it is grounded, set its rotation to the normal of the ray hit
-            transform.rotation = Quaternion.FromToRotation(transform.up, ray.normal) * transform.rotation;
-            xForce = 6f * -ray.normal.x;
-            yForce = 6f * -ray.normal.y;
+            transform.localRotation = Quaternion.FromToRotation(new Vector2(transform.up.x, transform.up.y), ray.normal) * transform.localRotation;
+            xForce = gravityForce * -ray.normal.x;
+            yForce = gravityForce * -ray.normal.y;
         }
     }
 
@@ -233,7 +231,7 @@ public class CharacterController : MonoBehaviour{
     private void Flip() {
         _facingRight = !_facingRight;
 
-        transform.Rotate(0.0f, 180.0f, 0.0f);
+        _renderer.flipX = !_renderer.flipX;
     }
 }
 
