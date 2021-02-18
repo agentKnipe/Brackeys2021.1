@@ -23,7 +23,7 @@ public class CharacterController : MonoBehaviour{
 
     private float _horizontalMove = 0f;
 
-    public float yForce, xForce, temp = 0f;
+    private float yForce, xForce, temp = 0f;
 
     private Vector2 velocity;
 
@@ -47,13 +47,15 @@ public class CharacterController : MonoBehaviour{
     // Update is called once per frame
     void Update(){
         _horizontalMove = Input.GetAxis("Horizontal");
+        // Doing 4 to account for each direction. Almost certainly not the best way to do it, but
+        // I plugged it in and it just worked!
+        for(int i = 0; i < 4; i++) {
+            CheckIfShouldRotate();
+        }
     }
 
     void FixedUpdate() {
         Move();
-        for(int i = 0; i < 4; i++) {
-            CheckIfShouldRotate();
-        }
         _rigidbody.AddForce(new Vector2(xForce, yForce));
     }
 
