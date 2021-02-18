@@ -162,10 +162,11 @@ MonoBehaviour:
   _platformLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  forwardLookAhead: 0.3
+  wallRayLength: 0.3
   _waterLayerMask:
     serializedVersion: 2
     m_Bits: 16
+  groundRayLength: 1
 --- !u!58 &1869421484438120045
 CircleCollider2D:
   m_ObjectHideFlags: 0
