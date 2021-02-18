@@ -17,7 +17,7 @@ public class CharacterController : MonoBehaviour{
 
     private Rigidbody2D _rigidbody;
 
-    private BoxCollider2D _boxCollider2D;
+    private CircleCollider2D _circleCollider2D;
 
     private Animator _animator;
 
@@ -46,20 +46,27 @@ public class CharacterController : MonoBehaviour{
         yForce = -5f;
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
-        _boxCollider2D = GetComponent<BoxCollider2D>();
+        _circleCollider2D = GetComponent<CircleCollider2D>();
     }
 
     // Update is called once per frame
     void Update(){
         _horizontalMove = Input.GetAxis("Horizontal");
+
+        if(!isGrounded(out RaycastHit2D hit)) {
+            _rigidbody.gravityScale = 0;
+            transform.rotation = new Quaternion(0, 0, 0, 0);
+        } else {
+            _rigidbody.gravityScale = 1;
+        }
+    }
+
+    void FixedUpdate() {
         // Doing 4 to account for each direction. Almost certainly not the best way to do it, but
         // I plugged it in and it just worked!
         for(int i = 0; i < 4; i++) {
             CheckIfShouldRotate();
         }
-    }
-
-    void FixedUpdate() {
         Move();
         _rigidbody.AddForce(new Vector2(xForce, yForce));
     }
@@ -71,20 +78,19 @@ public class CharacterController : MonoBehaviour{
     }
 
     private bool isGrounded(out RaycastHit2D raycastHit) {
-        float extraHeightCompensation = 1f;
         Vector2 gravityVector;
         gravityVector = _directionVectors[_gravityDirection];
         raycastHit = Physics2D.BoxCast(
-            _boxCollider2D.bounds.center,
-            _boxCollider2D.bounds.size,
+            _circleCollider2D.bounds.center,
+            _circleCollider2D.bounds.size,
             0f,
             gravityVector,
-            forwardLookAhead,
+            1f,
             _platformLayerMask
         );
 
         // Draws a gizmo for the ray that is cast to determine whether we are grounded
-        Debug.DrawRay(_boxCollider2D.bounds.center, gravityVector * forwardLookAhead, Color.blue);
+        Debug.DrawRay(_circleCollider2D.bounds.center, gravityVector * forwardLookAhead, Color.blue);
         return raycastHit.collider != null;
     }
 
@@ -101,16 +107,16 @@ public class CharacterController : MonoBehaviour{
         }
         gravityVector = _directionVectors[index];
         RaycastHit2D raycastHit = Physics2D.BoxCast(
-            _boxCollider2D.bounds.center,
-            _boxCollider2D.bounds.size/100,
+            _circleCollider2D.bounds.center,
+            _circleCollider2D.bounds.size/100,
             0f,
-            gravityVector,
+            -transform.right,
             forwardLookAhead,
             _platformLayerMask
         );
 
         // Draws a gizmo for the ray that is cast to determine whether we are next to a wall
-        Debug.DrawRay(_boxCollider2D.bounds.center, gravityVector * forwardLookAhead, Color.blue);
+        Debug.DrawRay(_circleCollider2D.bounds.center, -transform.right * forwardLookAhead, Color.blue);
         return raycastHit.collider != null;
     }
 
@@ -187,8 +193,10 @@ public class CharacterController : MonoBehaviour{
             }
             transform.Rotate(0f, 0f, 90f);
         } else {
-            // If it is ground, set its rotation to the normal of the ray hit
+            // If it is grounded, set its rotation to the normal of the ray hit
             transform.rotation = Quaternion.FromToRotation(transform.up, ray.normal) * transform.rotation;
+            xForce = 5f * -ray.normal.x;
+            yForce = 5f * -ray.normal.y;
         }
     }
 
