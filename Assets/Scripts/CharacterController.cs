@@ -57,12 +57,15 @@ public class CharacterController : MonoBehaviour{
 
     // Update is called once per frame
     void Update(){
+        // For some reason the transform likes to rotate by -180 degrees on the x axis when its
+        // upside down, which has very detrimental effects. This just ensure this doesnt happen.
         if(transform.localRotation.x == 1) {
             transform.Rotate(180f, 0, 180f);
         }
 
         _horizontalMove = Input.GetAxis("Horizontal");
 
+        // If we aren't on the floor, set our rotation to be directly downward.
         if(!isGrounded(out RaycastHit2D hit)) {
             transform.localRotation = new Quaternion(0, 0, 0, 0);
         }
