@@ -14,7 +14,20 @@ public class AntController : MonoBehaviour{
 
     private float _horizontalMove = 0f;
 
+    private float _moveTime = 1f;
+    private float _idleTime = 2f;
+
     private float _time = 0f;
+
+    void Awake() {
+        var rand = Random.Range(0, 11);
+        if(rand % 2 == 1) {
+            Flip();
+        }
+
+        _moveTime = Random.Range(.25f, 2f);
+        _idleTime = Random.Range(.25f, 2f);
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -24,15 +37,24 @@ public class AntController : MonoBehaviour{
 
     // Update is called once per frame
     void Update() {
-        _time += Time.deltaTime;
+        if(_horizontalMove == 0f && _time >= _idleTime) {
+            if (_facingRight) {
+                _horizontalMove = -1f;
+            }
+            else {
+                _horizontalMove = 1f;
+            }
 
-        if(Mathf.CeilToInt(_time) % 2 == 1) {
-            _horizontalMove = 1f; // Input.GetAxis("Horizontal");
+            _time = 0f;
+        }
+        else if(_horizontalMove != 0f && _time >= _moveTime) {
+            _horizontalMove = 0f;
+
+            _time = 0f;
         }
         else {
-            _horizontalMove = -1f; // Input.GetAxis("Horizontal");
+            _time += Time.deltaTime;
         }
-        
     }
 
     void FixedUpdate() {
