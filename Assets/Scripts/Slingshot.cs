@@ -39,8 +39,12 @@ public class Slingshot : Mechanic
 
             _controlling = false;
             _mechanicAnimator.SetBool("is_slingshotting", false);
-            StartCoroutine(StopMechanic());
+            // StartCoroutine(StopMechanic());
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        Finish();
     }
 
     private void FixedUpdate() {
@@ -80,13 +84,6 @@ public class Slingshot : Mechanic
         return slingForce;
     }
 
-    private IEnumerator StopMechanic() {
-        yield return new WaitForSeconds(1.5f);
-
-        if (!_controlling)
-            Finish();
-    }
-
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(gameObject.transform.position, _maxSlingForce/_slingForceMultiplier);
@@ -116,7 +113,7 @@ public class Slingshot : Mechanic
 
                 showLine = hit.fraction * 1000 > .1f;
             }
-            
+
             if (showLine) {
                 _lr.SetPosition(i, pos);
 

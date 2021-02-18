@@ -10,8 +10,6 @@ public class CharacterController : MonoBehaviour{
 
     private int _reverseFactor = 1;
 
-    private int _rotationCooldown = 0;
-
     private bool _facingRight = false;
 
     [SerializeField]
@@ -19,13 +17,13 @@ public class CharacterController : MonoBehaviour{
 
     private Rigidbody2D _rigidbody;
 
-    private BoxCollider2D _boxCollider2D;
+    private CircleCollider2D _circleCollider2D;
 
     private Animator _animator;
 
     private float _horizontalMove = 0f;
 
-    public float yForce, xForce, temp = 0f;
+    private float yForce, xForce, temp = 0f;
 
     private Vector2 velocity;
 
@@ -34,27 +32,52 @@ public class CharacterController : MonoBehaviour{
     [SerializeField]
     private LayerMask _platformLayerMask;
 
+
+    [Tooltip("How far ahead of the ant the raycasts will look for determining whether to stick to the next wall")]
+    [SerializeField]
+    float wallRayLength = 0.3f;
+
     [SerializeField]
     private LayerMask _waterLayerMask;
+    [SerializeField]
+    private float groundRayLength = 0.5f;
+    [SerializeField]
+    private float gravityForce = 6f;
+    private SpriteRenderer _renderer;
+
 
     // Start is called before the first frame update
     void Start(){
-        yForce = -5f;
+        yForce = gravityForce;
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
-        _boxCollider2D = GetComponent<BoxCollider2D>();
+        _circleCollider2D = GetComponent<CircleCollider2D>();
+        _renderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update(){
+        // For some reason the transform likes to rotate by -180 degrees on the x axis when its
+        // upside down, which has very detrimental effects. This just ensure this doesnt happen.
+        if(transform.localRotation.x == 1) {
+            transform.Rotate(180f, 0, 180f);
+        }
+
         _horizontalMove = Input.GetAxis("Horizontal");
 
-        Move();
+        // If we aren't on the floor, set our rotation to be directly downward.
+        if(!isGrounded(out RaycastHit2D hit)) {
+            transform.localRotation = new Quaternion(0, 0, 0, 0);
+        }
     }
 
     void FixedUpdate() {
-        if (_rotationCooldown > 0) _rotationCooldown--;
-        if (_rotationCooldown == 0) CheckIfShouldRotate();
+        // Doing 4 to account for each direction. Almost certainly not the best way to do it, but
+        // I plugged it in and it just worked!
+        for(int i = 0; i < 4; i++) {
+            CheckIfShouldRotate();
+        }
+        Move();
         _rigidbody.AddForce(new Vector2(xForce, yForce));
     }
 
@@ -64,42 +87,74 @@ public class CharacterController : MonoBehaviour{
         }
     }
 
-    private bool isGrounded() {
-        float extraHeightCompensation = 1f;
+    private bool isGrounded(out RaycastHit2D raycastHit) {
         Vector2 gravityVector;
         gravityVector = _directionVectors[_gravityDirection];
-        RaycastHit2D raycastHit = Physics2D.BoxCast(
-            _boxCollider2D.bounds.center,
-            _boxCollider2D.bounds.size,
+        raycastHit = Physics2D.BoxCast(
+            _circleCollider2D.bounds.center,
+            _circleCollider2D.bounds.size,
             0f,
             gravityVector,
-            extraHeightCompensation,
+            groundRayLength,
             _platformLayerMask
         );
+
+        Vector2 startCentre = _circleCollider2D.bounds.center;
+        Vector2 inverseGrav = new Vector2(gravityVector.y, gravityVector.x);
+
+        // Casting 3 rays, so that we can take the average of the normal so that the rotation doesnt go crazy when going over steepish terrain
+        startCentre += inverseGrav * 0.1f;
+        Debug.DrawRay(startCentre, gravityVector * groundRayLength, Color.blue);
+        RaycastHit2D hit2 = Physics2D.BoxCast(
+            startCentre,
+            _circleCollider2D.bounds.size,
+            0f,
+            gravityVector,
+            groundRayLength,
+            _platformLayerMask
+        );
+
+        startCentre -= inverseGrav * 0.2f;
+        Debug.DrawRay(startCentre, gravityVector * groundRayLength, Color.blue);
+        RaycastHit2D hit3 = Physics2D.BoxCast(
+            startCentre,
+            _circleCollider2D.bounds.size,
+            0f,
+            gravityVector,
+            groundRayLength,
+            _platformLayerMask
+        );
+
+        raycastHit.normal = (hit2.normal + hit3.normal + raycastHit.normal) / 3f;
+
+        // Draws a gizmo for the ray that is cast to determine whether we are grounded
+        Debug.DrawRay(_circleCollider2D.bounds.center, gravityVector * groundRayLength, Color.blue);
         return raycastHit.collider != null;
     }
 
     private bool isFacingWall() {
-        float extraHeightCompensation = 1f;
-        Vector2 gravityVector;
-        int index;
-        if (_facingRight) {
-            index = _gravityDirection + 1;
-            if (index > 3) index = 0;
-        } else {
-            index = _gravityDirection - 1;
-            if (index < 0) index = 3;
-        }
-        gravityVector = _directionVectors[index];
+        // Looking in both directions as there is a bug which makes the rotation do crazy stuff.
         RaycastHit2D raycastHit = Physics2D.BoxCast(
-            _boxCollider2D.bounds.center,
-            _boxCollider2D.bounds.size/100,
+            _circleCollider2D.bounds.center,
+            _circleCollider2D.bounds.size/100,
             0f,
-            gravityVector,
-            extraHeightCompensation,
+            -transform.right,
+            wallRayLength,
             _platformLayerMask
         );
-        return raycastHit.collider != null;
+
+        RaycastHit2D raycastHit2 = Physics2D.BoxCast(
+            _circleCollider2D.bounds.center,
+            _circleCollider2D.bounds.size/100,
+            0f,
+            transform.right,
+            wallRayLength,
+            _platformLayerMask
+        );
+
+        // Draws a gizmo for the ray that is cast to determine whether we are next to a wall
+        Debug.DrawRay(_circleCollider2D.bounds.center, -transform.right * wallRayLength, Color.blue);
+        return raycastHit.collider != null || raycastHit2.collider != null;
     }
 
     private void Move() {
@@ -134,19 +189,13 @@ public class CharacterController : MonoBehaviour{
         if (Mathf.Abs(_horizontalMove) > 0) {
             if (isFacingWall()) {
                 if (_facingRight) {
-                    temp = xForce;
-                    xForce = -yForce;
-                    yForce = temp;
                     handleRotation(false);
                 } else {
-                    temp = -xForce;
-                    xForce = yForce;
-                    yForce = temp;
                     handleRotation(true);
                 }
-                transform.Rotate(0f, 0f, -90f);
             }
         }
+
         CheckIfShouldFlip(_horizontalMove);
     }
 
@@ -158,24 +207,19 @@ public class CharacterController : MonoBehaviour{
             _gravityDirection++;
             if (_gravityDirection > 3) _gravityDirection = 0;
         }
-        _rotationCooldown = 10;
     }
 
     private void CheckIfShouldRotate() {
-        if (!isGrounded()) {
-            if (_facingRight) {
-                temp = -xForce;
-                xForce = yForce;
-                yForce = temp;
+        if (!isGrounded(out RaycastHit2D ray)) {
+            if (_facingRight)
                 handleRotation(true);
-            } else {
-                temp = xForce;
-                xForce = -yForce;
-                yForce = temp;
+            else
                 handleRotation(false);
-            }
-            transform.Rotate(0f, 0f, 90f);
-            return;
+        } else {
+            // If it is grounded, set its rotation to the normal of the ray hit
+            transform.localRotation = Quaternion.FromToRotation(new Vector2(transform.up.x, transform.up.y), ray.normal) * transform.localRotation;
+            xForce = gravityForce * -ray.normal.x;
+            yForce = gravityForce * -ray.normal.y;
         }
     }
 
@@ -190,7 +234,7 @@ public class CharacterController : MonoBehaviour{
     private void Flip() {
         _facingRight = !_facingRight;
 
-        transform.Rotate(0.0f, 180.0f, 0.0f);
+        _renderer.flipX = !_renderer.flipX;
     }
 }
 
