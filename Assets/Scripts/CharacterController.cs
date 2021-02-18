@@ -44,6 +44,7 @@ public class CharacterController : MonoBehaviour{
     [SerializeField]
     private float gravityForce = 6f;
     private SpriteRenderer _renderer;
+    private bool canMove = true;
 
 
     // Start is called before the first frame update
@@ -53,6 +54,10 @@ public class CharacterController : MonoBehaviour{
         _rigidbody = GetComponent<Rigidbody2D>();
         _circleCollider2D = GetComponent<CircleCollider2D>();
         _renderer = GetComponent<SpriteRenderer>();
+    }
+
+    public void ToggleMovement(bool toggle) {
+        canMove = toggle;
     }
 
     // Update is called once per frame
@@ -77,7 +82,9 @@ public class CharacterController : MonoBehaviour{
         for(int i = 0; i < 4; i++) {
             CheckIfShouldRotate();
         }
-        Move();
+        if(canMove) {
+            Move();
+        }
         _rigidbody.AddForce(new Vector2(xForce, yForce));
     }
 

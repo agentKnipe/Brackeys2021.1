@@ -21,12 +21,10 @@ public abstract class Mechanic : MonoBehaviour
     public int cost;
 
 
-    CharacterController _controller;
     protected Animator _mechanicAnimator;
 
     protected virtual void Start() {
         _mechanicAnimator = GetComponent<Animator>();
-        _controller = GetComponent<CharacterController>();
         enabled = false;
     }
 
@@ -36,7 +34,6 @@ public abstract class Mechanic : MonoBehaviour
     /// animator
     /// </summary>
     public void StartMechanic() {
-        _controller.enabled = false;
         enabled = true;
         _mechanicAnimator.SetTrigger("start_mechanic");
         onStartCallback();
@@ -55,7 +52,6 @@ public abstract class Mechanic : MonoBehaviour
     /// trigger in the animator and gives control back to the character controller
     /// </summary>
     protected void Finish() {
-        _controller.enabled = true;
         enabled = false;
         _mechanicAnimator.SetTrigger("end_mechanic");
     }

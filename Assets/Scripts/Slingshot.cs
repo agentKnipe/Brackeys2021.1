@@ -19,11 +19,15 @@ public class Slingshot : Mechanic
     private LineRenderer _lr;
 
     private Vector3 _mouseWorldPosition;
+    CharacterController _controller;
+
 
     protected override void Start() {
         base.Start();
         _rb = GetComponent<Rigidbody2D>();
         _lr = GetComponent<LineRenderer>();
+        _controller = GetComponent<CharacterController>();
+
     }
 
     private void Update() {
@@ -44,6 +48,7 @@ public class Slingshot : Mechanic
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
+        _controller.enabled = true;
         Finish();
     }
 
@@ -56,10 +61,14 @@ public class Slingshot : Mechanic
     }
 
     private void FireSlingshot() {
+        _controller.enabled = false;
         // Move it up a bit so it doesnt get stuck on the ground
-        Vector3 position = gameObject.transform.position;
-        position.y += 0.5f;
-        gameObject.transform.position = position;
+        Vector3 position = gameObject.transform.up;
+        position *= 0.5f;
+        gameObject.transform.position += position;
+
+
+        transform.rotation = Quaternion.Euler(0,0,0);
 
         var slingForce = CalcSlingForce();
 
@@ -74,8 +83,10 @@ public class Slingshot : Mechanic
     }
 
     private Vector3 CalcSlingForce() {
-        var position = transform.position;
-        position.y += .5f;
+        Vector3 position = gameObject.transform.up;
+        position *= 0.5f;
+        position += gameObject.transform.position;
+        Debug.DrawLine(transform.position, position, Color.black);
 
         Vector2 direction = _mouseWorldPosition - position;
         var slingForce = direction * _slingForceMultiplier;
