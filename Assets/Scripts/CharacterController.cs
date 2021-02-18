@@ -51,14 +51,16 @@ public class CharacterController : MonoBehaviour{
 
     void FixedUpdate() {
         Move();
-        CheckIfShouldRotate();
+        for(int i = 0; i < 4; i++) {
+            CheckIfShouldRotate();
+        }
         _rigidbody.AddForce(new Vector2(xForce, yForce));
     }
 
-    private bool isGrounded() {
+    private bool isGrounded(out RaycastHit2D raycastHit) {
         Vector2 gravityVector;
         gravityVector = _directionVectors[_gravityDirection];
-        RaycastHit2D raycastHit = Physics2D.BoxCast(
+        raycastHit = Physics2D.BoxCast(
             _boxCollider2D.bounds.center,
             _boxCollider2D.bounds.size,
             0f,
@@ -66,6 +68,9 @@ public class CharacterController : MonoBehaviour{
             forwardLookAhead,
             _platformLayerMask
         );
+
+        // Draws a gizmo for the ray that is cast to determine whether we are grounded
+        Debug.DrawRay(_boxCollider2D.bounds.center, gravityVector * forwardLookAhead, Color.blue);
         return raycastHit.collider != null;
     }
 
@@ -89,7 +94,9 @@ public class CharacterController : MonoBehaviour{
             forwardLookAhead,
             _platformLayerMask
         );
-        Debug.DrawRay(_boxCollider2D.bounds.center, gravityVector, Color.blue);
+
+        // Draws a gizmo for the ray that is cast to determine whether we are next to a wall
+        Debug.DrawRay(_boxCollider2D.bounds.center, gravityVector * forwardLookAhead, Color.blue);
         return raycastHit.collider != null;
     }
 
@@ -152,7 +159,7 @@ public class CharacterController : MonoBehaviour{
     }
 
     private void CheckIfShouldRotate() {
-        if (!isGrounded()) {
+        if (!isGrounded(out RaycastHit2D ray)) {
             if (_facingRight) {
                 temp = -xForce;
                 xForce = yForce;
@@ -165,6 +172,9 @@ public class CharacterController : MonoBehaviour{
                 handleRotation(false);
             }
             transform.Rotate(0f, 0f, 90f);
+        } else {
+            // If it is ground, set its rotation to the normal of the ray hit
+            transform.rotation = Quaternion.FromToRotation(transform.up, ray.normal) * transform.rotation;
         }
     }
 
