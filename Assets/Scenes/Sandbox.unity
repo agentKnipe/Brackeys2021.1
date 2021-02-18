@@ -3783,7 +3783,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.9264214, y: 1}
+    m_SensorSize: {x: 2.823741, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3820,11 +3820,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1682299447515420730, guid: cc59e7fef85e48941b2f724f52196ab7,
-        type: 3}
-      propertyPath: _maxSlingForce
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 1869421484438120040, guid: cc59e7fef85e48941b2f724f52196ab7,
         type: 3}
       propertyPath: m_RootOrder
@@ -3880,24 +3875,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1869421484438120041, guid: cc59e7fef85e48941b2f724f52196ab7,
+        type: 3}
+      propertyPath: m_Mass
+      value: 0.16097477
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869421484438120041, guid: cc59e7fef85e48941b2f724f52196ab7,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 37d1ae56c557fe74fb40f311baf433b5, type: 2}
     - target: {fileID: 1869421484438120043, guid: cc59e7fef85e48941b2f724f52196ab7,
         type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 1869421484438120047, guid: cc59e7fef85e48941b2f724f52196ab7,
+    - target: {fileID: 1869421484438120044, guid: cc59e7fef85e48941b2f724f52196ab7,
         type: 3}
-      propertyPath: forwardLookAhead
-      value: 0.3
-      propertyPath: _layerMask.m_Bits
-      value: 16
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1869421484438120047, guid: cc59e7fef85e48941b2f724f52196ab7,
+    - target: {fileID: 1869421484438120045, guid: cc59e7fef85e48941b2f724f52196ab7,
         type: 3}
-      propertyPath: _waterLayerMask.m_Bits
-      value: 16
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 1869421484438120045, guid: cc59e7fef85e48941b2f724f52196ab7,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 37d1ae56c557fe74fb40f311baf433b5, type: 2}
+    m_RemovedComponents:
+    - {fileID: 1869421484438120044, guid: cc59e7fef85e48941b2f724f52196ab7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cc59e7fef85e48941b2f724f52196ab7, type: 3}
 --- !u!4 &1171193995 stripped
 Transform:

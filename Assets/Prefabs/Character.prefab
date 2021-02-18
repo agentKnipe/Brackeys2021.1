@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 1682299447515420730}
   - component: {fileID: 1869421484438120041}
   - component: {fileID: 1869421484438120047}
-  - component: {fileID: 1869421484438120044}
   - component: {fileID: 1869421484438120045}
   - component: {fileID: 1869421484438120034}
   - component: {fileID: 1463840012}
@@ -121,7 +120,7 @@ MonoBehaviour:
   delay: 0
   key: 49
   cost: 1
-  _maxSlingForce: 8
+  _maxSlingForce: 12
   _slingForceMultiplier: 2.5
   _platformLayerMask:
     serializedVersion: 2
@@ -138,11 +137,11 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 0.35125172
+  m_Mass: 0.16097477
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 37d1ae56c557fe74fb40f311baf433b5, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -160,38 +159,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 150
-  yForce: 0
-  xForce: 0
-  temp: 0
   _platformLayerMask:
     serializedVersion: 2
     m_Bits: 256
---- !u!61 &1869421484438120044
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1869421484438120043}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.008525133, y: 0.001644671}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.2, y: 1.2}
-    newSize: {x: 0.32, y: 0.32}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.19244, y: 1.1347157}
-  m_EdgeRadius: 0
+  forwardLookAhead: 0.3
+  _waterLayerMask:
+    serializedVersion: 2
+    m_Bits: 16
 --- !u!58 &1869421484438120045
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -201,7 +175,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 1869421484438120043}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 37d1ae56c557fe74fb40f311baf433b5, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
