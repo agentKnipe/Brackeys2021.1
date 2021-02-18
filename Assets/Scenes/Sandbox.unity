@@ -3783,7 +3783,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.171477, y: 1}
+    m_SensorSize: {x: 2.165725, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4276,6 +4276,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1381486614}
     m_Modifications:
+    - target: {fileID: 1479677100, guid: e0c5d403cbe32bc4cb83a602b828cdbd, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 519420031}
     - target: {fileID: 4340198264227478673, guid: e0c5d403cbe32bc4cb83a602b828cdbd,
         type: 3}
       propertyPath: m_RootOrder
@@ -4468,6 +4472,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3395558951656731604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3395558951656731602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e288ef24de321fa4e996e2e25b84e4ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speechFile: {fileID: 4900000, guid: d140de92fbd3b9548b224c14023fda23, type: 3}
 --- !u!4 &4140628637337845789 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4340198264227478673, guid: e0c5d403cbe32bc4cb83a602b828cdbd,

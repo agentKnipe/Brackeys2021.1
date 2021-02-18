@@ -1,22 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AntController : MonoBehaviour{
-    private bool _facingRight = false;
-
     [SerializeField]
     private float _speed = 5f;
 
-    private Rigidbody2D _rigidbody;
+    [SerializeField]
+    private GameObject _speechPanel;
 
+    [SerializeField]
+    private Text _speechText;
+
+
+    private Rigidbody2D _rigidbody;
     private Animator _animator;
 
+    private bool _facingRight = false;
+    private bool _isIdle = false;
     private float _horizontalMove = 0f;
-
-    private float _moveTime = 1f;
     private float _idleTime = 2f;
-
+    private float _moveTime = 1f;
     private float _time = 0f;
 
     void Awake() {
@@ -33,6 +38,8 @@ public class AntController : MonoBehaviour{
     void Start() {
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
+        //_speechText = GetComponent<Text>();
+
     }
 
     // Update is called once per frame
@@ -49,7 +56,7 @@ public class AntController : MonoBehaviour{
         }
         else if(_horizontalMove != 0f && _time >= _moveTime) {
             _horizontalMove = 0f;
-
+            _isIdle = true;
             _time = 0f;
         }
         else {
@@ -75,9 +82,18 @@ public class AntController : MonoBehaviour{
         // worry about it when/if there are more animations.
         if (_horizontalMove != 0) {
             _animator.SetBool("walking", true);
+            _speechPanel.SetActive(false);
         }
         else {
             _animator.SetBool("walking", false);
+
+            if (_idleTime >= 1f && _moveTime >= 1f && _isIdle) { //TODO: arbitrary timing values, these could be made into serialized fields for tweaking.
+
+                if (SetSpeech()) {
+                    _speechPanel.SetActive(true);
+                    _isIdle = false;
+                }
+            }
         }
 
         // Set the velocity to the frame normalized time * the input on the x and maintain the y
@@ -93,6 +109,18 @@ public class AntController : MonoBehaviour{
         CheckIfShouldFlip(velocity.x);
     }
 
+    private bool SetSpeech() {
+        var speechText = TextReader.Instance.RandomSpeechGet();
+
+        if (!string.IsNullOrEmpty(speechText)) {
+            _speechText.text = speechText;
+
+            return true;
+        }
+
+        return false;
+    }
+
     private void CheckIfShouldFlip(float xInput) {
         if (xInput > 0 && !_facingRight) {
             Flip();
@@ -106,9 +134,14 @@ public class AntController : MonoBehaviour{
         _facingRight = !_facingRight;
 
         // Multiply the player's x local scale by -1.
-        Vector3 scale = transform.localScale;
+        var scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+
+        //rotate the speech panel back the other way to ensure its facing the right direction
+        //var speechTextScale = _speechText.transform.localScale;
+        //speechTextScale.x *= -1;
+        _speechText.transform.Rotate(new Vector3(0,180,0));
     }
 
     public void Destroy() {
