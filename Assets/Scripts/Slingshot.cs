@@ -47,6 +47,7 @@ public class Slingshot : Mechanic
             _controller.enabled = true;
             _controller.ToggleMovement(true);
 
+            _lr.positionCount = 0;
             Finish();
         }
 
