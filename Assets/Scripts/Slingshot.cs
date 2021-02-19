@@ -52,6 +52,7 @@ public class Slingshot : Mechanic
 
 
         var mousePosition = Input.mousePosition;
+        mousePosition.z = Camera.main.farClipPlane;
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         if (Input.GetButtonDown("Fire1")) {

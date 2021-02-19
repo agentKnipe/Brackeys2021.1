@@ -121,8 +121,8 @@ MonoBehaviour:
   key: 49
   cost: 1
   _inMechanic: 0
-  _maxSlingForce: 12
-  _slingForceMultiplier: 2.5
+  _maxSlingForce: 10
+  _slingForceMultiplier: 1.5
   _platformLayerMask:
     serializedVersion: 2
     m_Bits: 256
