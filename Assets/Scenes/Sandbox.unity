@@ -3837,7 +3837,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.165725, y: 1}
+    m_SensorSize: {x: 4.691235, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3874,6 +3874,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1682299447515420730, guid: cc59e7fef85e48941b2f724f52196ab7,
+        type: 3}
+      propertyPath: _airRotationSpeed
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 1869421484438120040, guid: cc59e7fef85e48941b2f724f52196ab7,
         type: 3}
       propertyPath: m_RootOrder
@@ -3937,7 +3942,7 @@ PrefabInstance:
     - target: {fileID: 1869421484438120047, guid: cc59e7fef85e48941b2f724f52196ab7,
         type: 3}
       propertyPath: groundRayLength
-      value: 1
+      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc59e7fef85e48941b2f724f52196ab7, type: 3}
