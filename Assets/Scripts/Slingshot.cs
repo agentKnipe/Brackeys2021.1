@@ -41,6 +41,15 @@ public class Slingshot : Mechanic
         if(!_controlling)
             return;
 
+        if(Input.GetButtonDown("Fire2")) {
+            _controlling = false;
+            _mechanicAnimator.SetBool("is_slingshotting", false);
+            _controller.enabled = true;
+            _controller.ToggleMovement(true);
+
+            Finish();
+        }
+
 
         var mousePosition = Input.mousePosition;
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
