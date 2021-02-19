@@ -13,38 +13,64 @@ public class Slingshot : Mechanic
 
     [SerializeField]
     LayerMask _platformLayerMask;
+    [SerializeField]
+    float _airRotationSpeed;
 
     private bool _controlling = false;
     private Rigidbody2D _rb;
     private LineRenderer _lr;
 
     private Vector3 _mouseWorldPosition;
+    CharacterController _controller;
+
+    private bool _shot = false;
+
 
     protected override void Start() {
         base.Start();
         _rb = GetComponent<Rigidbody2D>();
         _lr = GetComponent<LineRenderer>();
+        _controller = GetComponent<CharacterController>();
+
     }
 
     private void Update() {
+        if(_shot)
+            transform.Rotate(0f, 0f, _airRotationSpeed * Time.deltaTime * (1f + _rb.velocity.magnitude));
+
         if(!_controlling)
             return;
+
+        if(Input.GetButtonDown("Fire2")) {
+            _controlling = false;
+            _mechanicAnimator.SetBool("is_slingshotting", false);
+            _controller.enabled = true;
+            _controller.ToggleMovement(true);
+
+            Finish();
+        }
+
 
         var mousePosition = Input.mousePosition;
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         if (Input.GetButtonDown("Fire1")) {
             _lr.enabled = false;
+            _shot = true;
             FireSlingshot();
 
             _controlling = false;
             _mechanicAnimator.SetBool("is_slingshotting", false);
-            // StartCoroutine(StopMechanic());
+            _inMechanic = false;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        Finish();
+        if(_shot) {
+            Finish();
+            _controller.enabled = true;
+            _controller.ToggleMovement(true);
+        }
     }
 
     private void FixedUpdate() {
@@ -56,10 +82,11 @@ public class Slingshot : Mechanic
     }
 
     private void FireSlingshot() {
+        _controller.enabled = false;
         // Move it up a bit so it doesnt get stuck on the ground
-        Vector3 position = gameObject.transform.position;
-        position.y += 0.5f;
-        gameObject.transform.position = position;
+        Vector3 position = gameObject.transform.up;
+        position *= 0.5f;
+        gameObject.transform.position += position;
 
         var slingForce = CalcSlingForce();
 
@@ -67,15 +94,19 @@ public class Slingshot : Mechanic
     }
 
     protected override void onStartCallback(){
+        _controller.ToggleMovement(false);
         _controlling = true;
+        _shot = false;
         _mechanicAnimator.SetBool("is_slingshotting", true);
 
         _lr.enabled = true;
     }
 
     private Vector3 CalcSlingForce() {
-        var position = transform.position;
-        position.y += .5f;
+        Vector3 position = gameObject.transform.up;
+        position *= 0.5f;
+        position += gameObject.transform.position;
+        Debug.DrawLine(transform.position, position, Color.black);
 
         Vector2 direction = _mouseWorldPosition - position;
         var slingForce = direction * _slingForceMultiplier;

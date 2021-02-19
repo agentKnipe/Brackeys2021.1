@@ -120,11 +120,13 @@ MonoBehaviour:
   delay: 0
   key: 49
   cost: 1
+  _inMechanic: 0
   _maxSlingForce: 12
   _slingForceMultiplier: 2.5
   _platformLayerMask:
     serializedVersion: 2
     m_Bits: 256
+  _airRotationSpeed: 60
 --- !u!50 &1869421484438120041
 Rigidbody2D:
   serializedVersion: 4
