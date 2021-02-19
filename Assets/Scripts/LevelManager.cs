@@ -47,6 +47,12 @@ public class LevelManager : MonoBehaviour{
     }
 
     public void PlayerDied() {
+        var sources = GetComponents<AudioSource>();
+
+        foreach (var audio in sources) {
+            audio.Stop();
+        }
+
         _popupMenu.DeathPopup();
     }
 
