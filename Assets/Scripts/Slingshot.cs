@@ -21,6 +21,8 @@ public class Slingshot : Mechanic
     private Vector3 _mouseWorldPosition;
     CharacterController _controller;
 
+    private bool _shot = false;
+
 
     protected override void Start() {
         base.Start();
@@ -39,17 +41,19 @@ public class Slingshot : Mechanic
 
         if (Input.GetButtonDown("Fire1")) {
             _lr.enabled = false;
+            _shot = true;
             FireSlingshot();
 
             _controlling = false;
             _mechanicAnimator.SetBool("is_slingshotting", false);
-            // StartCoroutine(StopMechanic());
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        _controller.enabled = true;
-        Finish();
+        if(_shot) {
+            _controller.enabled = true;
+            Finish();
+        }
     }
 
     private void FixedUpdate() {
@@ -77,6 +81,7 @@ public class Slingshot : Mechanic
 
     protected override void onStartCallback(){
         _controlling = true;
+        _shot = false;
         _mechanicAnimator.SetBool("is_slingshotting", true);
 
         _lr.enabled = true;
