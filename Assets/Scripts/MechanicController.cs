@@ -14,6 +14,7 @@ public class MechanicController : MonoBehaviour
     ParticleSystem poofEffect;
     Animator characterAnimator;
     private LevelManager _levelManager;
+    private bool _inMechanic = false;
 
 
     // Start is called before the first frame update
@@ -24,7 +25,7 @@ public class MechanicController : MonoBehaviour
 
     }
 
-    private bool CanPerformMechanic(Mechanic m) {
+    private bool CanAffordMechanic(Mechanic m) {
         return _levelManager.AntCount >= m.cost;
     }
 
@@ -43,8 +44,10 @@ public class MechanicController : MonoBehaviour
 
     // A coroutine so that there can be a delay between the poof effect and the mechanic starting.
     IEnumerator StartMechanic(Mechanic m) {
-        if(!CanPerformMechanic(m)) {
+        if(!CanAffordMechanic(m)) {
             Debug.Log("Dont have enough ants to spend: Probably should display this on screen");
+        } else if(!m.CanDoMechanic()) {
+            Debug.Log("Already in a mechanic");
         } else {
             _levelManager.ExpendAnts(m.cost);
             ParticleSystem effect = Instantiate(poofEffect, transform.position, transform.rotation);

@@ -19,6 +19,7 @@ public abstract class Mechanic : MonoBehaviour
     [Tooltip("The cost to use the mechanic")]
     [SerializeField]
     public int cost;
+    public bool _inMechanic = false;
 
 
     protected Animator _mechanicAnimator;
@@ -34,9 +35,16 @@ public abstract class Mechanic : MonoBehaviour
     /// animator
     /// </summary>
     public void StartMechanic() {
-        enabled = true;
-        _mechanicAnimator.SetTrigger("start_mechanic");
-        onStartCallback();
+        if(!_inMechanic) {
+            _inMechanic = true;
+            enabled = true;
+            _mechanicAnimator.SetTrigger("start_mechanic");
+            onStartCallback();
+        }
+    }
+
+    public bool CanDoMechanic() {
+        return !_inMechanic;
     }
 
     /// <summary>
@@ -52,7 +60,10 @@ public abstract class Mechanic : MonoBehaviour
     /// trigger in the animator and gives control back to the character controller
     /// </summary>
     protected void Finish() {
-        enabled = false;
-        _mechanicAnimator.SetTrigger("end_mechanic");
+        if(_inMechanic) {
+            _inMechanic = false;
+            enabled = false;
+            _mechanicAnimator.SetTrigger("end_mechanic");
+        }
     }
 }

@@ -46,13 +46,13 @@ public class Slingshot : Mechanic
 
             _controlling = false;
             _mechanicAnimator.SetBool("is_slingshotting", false);
+            Finish();
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
         if(_shot) {
             _controller.enabled = true;
-            Finish();
         }
     }
 

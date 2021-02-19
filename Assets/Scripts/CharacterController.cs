@@ -57,6 +57,9 @@ public class CharacterController : MonoBehaviour{
     }
 
     public void ToggleMovement(bool toggle) {
+        for(int i = 0; i < 4; i++) {
+            CheckIfShouldRotate();
+        }
         canMove = toggle;
     }
 
@@ -72,7 +75,10 @@ public class CharacterController : MonoBehaviour{
 
         // If we aren't on the floor, set our rotation to be directly downward.
         if(!isGrounded(out RaycastHit2D hit)) {
+            _facingRight = true;
+            _reverseFactor = 1;
             transform.localRotation = new Quaternion(0, 0, 0, 0);
+            _gravityDirection = 0;
         }
     }
 
