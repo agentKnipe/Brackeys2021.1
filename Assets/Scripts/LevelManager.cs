@@ -42,6 +42,10 @@ public class LevelManager : MonoBehaviour{
         
     }
 
+    public void LevelCleared() {
+        _popupMenu.LevelCleared();
+    }
+
     public void PlayerDied() {
         _popupMenu.DeathPopup();
     }
