@@ -13,6 +13,8 @@ public class Slingshot : Mechanic
 
     [SerializeField]
     LayerMask _platformLayerMask;
+    [SerializeField]
+    float _airRotationSpeed;
 
     private bool _controlling = false;
     private Rigidbody2D _rb;
@@ -33,8 +35,12 @@ public class Slingshot : Mechanic
     }
 
     private void Update() {
+        if(_shot)
+            transform.Rotate(0f, 0f, _airRotationSpeed * Time.deltaTime * (1f + _rb.velocity.magnitude));
+
         if(!_controlling)
             return;
+
 
         var mousePosition = Input.mousePosition;
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
@@ -46,13 +52,15 @@ public class Slingshot : Mechanic
 
             _controlling = false;
             _mechanicAnimator.SetBool("is_slingshotting", false);
-            Finish();
+            _inMechanic = false;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
         if(_shot) {
+            Finish();
             _controller.enabled = true;
+            _controller.ToggleMovement(true);
         }
     }
 
@@ -71,15 +79,13 @@ public class Slingshot : Mechanic
         position *= 0.5f;
         gameObject.transform.position += position;
 
-
-        transform.rotation = Quaternion.Euler(0,0,0);
-
         var slingForce = CalcSlingForce();
 
         _rb.velocity = slingForce;
     }
 
     protected override void onStartCallback(){
+        _controller.ToggleMovement(false);
         _controlling = true;
         _shot = false;
         _mechanicAnimator.SetBool("is_slingshotting", true);

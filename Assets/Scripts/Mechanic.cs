@@ -35,12 +35,10 @@ public abstract class Mechanic : MonoBehaviour
     /// animator
     /// </summary>
     public void StartMechanic() {
-        if(!_inMechanic) {
-            _inMechanic = true;
-            enabled = true;
-            _mechanicAnimator.SetTrigger("start_mechanic");
-            onStartCallback();
-        }
+        _inMechanic = true;
+        enabled = true;
+        _mechanicAnimator.SetTrigger("start_mechanic");
+        onStartCallback();
     }
 
     public bool CanDoMechanic() {
@@ -60,10 +58,8 @@ public abstract class Mechanic : MonoBehaviour
     /// trigger in the animator and gives control back to the character controller
     /// </summary>
     protected void Finish() {
-        if(_inMechanic) {
-            _inMechanic = false;
-            enabled = false;
-            _mechanicAnimator.SetTrigger("end_mechanic");
-        }
+        _inMechanic = false;
+        _mechanicAnimator.SetTrigger("end_mechanic");
+        enabled = false;
     }
 }

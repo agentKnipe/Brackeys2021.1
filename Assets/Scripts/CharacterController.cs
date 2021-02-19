@@ -74,22 +74,22 @@ public class CharacterController : MonoBehaviour{
         _horizontalMove = Input.GetAxis("Horizontal");
 
         // If we aren't on the floor, set our rotation to be directly downward.
-        if(!isGrounded(out RaycastHit2D hit)) {
-            _facingRight = true;
-            _reverseFactor = 1;
-            transform.localRotation = new Quaternion(0, 0, 0, 0);
-            _gravityDirection = 0;
-        }
     }
 
     void FixedUpdate() {
         // Doing 4 to account for each direction. Almost certainly not the best way to do it, but
         // I plugged it in and it just worked!
-        for(int i = 0; i < 4; i++) {
-            CheckIfShouldRotate();
-        }
         if(canMove) {
+            for(int i = 0; i < 4; i++) {
+                CheckIfShouldRotate();
+            }
             Move();
+            if(!isGrounded(out RaycastHit2D hit)) {
+                _facingRight = true;
+                _reverseFactor = 1;
+                transform.localRotation = new Quaternion(0, 0, 0, 0);
+                _gravityDirection = 0;
+            }
         }
         _rigidbody.AddForce(new Vector2(xForce, yForce));
     }
