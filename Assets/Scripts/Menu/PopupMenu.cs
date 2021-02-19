@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PopupMenu : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class PopupMenu : MonoBehaviour
     [SerializeField]
     private GameObject DeathPanel; //Maybe not the best name?
 
+    [SerializeField]
+    private GameObject LevelClearedPanel; //Maybe not the best name?
+
     // Update is called once per frame
     void Update() {
         if (Input.GetButtonDown("Cancel")) {
@@ -21,27 +25,26 @@ public class PopupMenu : MonoBehaviour
 
     }
 
-    public void PauseGame() {
-        PausePanel.SetActive(!PausePanel.activeSelf);
-        _paused = !_paused;
+    public void DeathPopup() {
+        DeathPanel.SetActive(!DeathPanel.activeSelf);
 
-        if (_paused) {
-            Time.timeScale = 0f;
-        }
-        else {
-            Time.timeScale = 1f;
-        }
+        PauseGameTime();
     }
 
-    public void DeathPopup() {
-        DeathPanel.SetActive(!PausePanel.activeSelf);
-        _paused = !_paused;
+    public void LevelCleared() {
+        LevelClearedPanel.SetActive(!LevelClearedPanel.activeSelf);
+        PauseGameTime();
 
-        if (_paused) {
-            Time.timeScale = 0f;
-        }
-        else {
-            Time.timeScale = 1f;
+
+        var currentBuildIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if(SceneManager.sceneCountInBuildSettings -1 <= currentBuildIndex) {
+            var buttons = LevelClearedPanel.GetComponentsInChildren<Button>();
+            for(int i = 0; i < buttons.Length; i++) {
+                if(buttons[i].name == "NextLevel") {
+                    buttons[i].gameObject.SetActive(false);
+                }
+            }
         }
     }
 
@@ -50,8 +53,31 @@ public class PopupMenu : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void NextLevel() {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex +1);
+    }
+
+
+    public void PauseGame() {
+        PausePanel.SetActive(!PausePanel.activeSelf);
+
+        PauseGameTime();
+    }
+
     public void RestartLevel() {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void PauseGameTime() {
+        _paused = !_paused;
+
+        if (_paused) {
+            Time.timeScale = 0f;
+        }
+        else {
+            Time.timeScale = 1f;
+        }
     }
 }
