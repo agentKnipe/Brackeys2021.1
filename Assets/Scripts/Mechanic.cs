@@ -18,7 +18,7 @@ public abstract class Mechanic : MonoBehaviour
 
     [Tooltip("The cost to use the mechanic")]
     [SerializeField]
-    public int cost;
+    public int cost = 1;
     public bool _inMechanic = false;
 
 

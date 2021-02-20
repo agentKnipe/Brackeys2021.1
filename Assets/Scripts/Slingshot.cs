@@ -21,10 +21,12 @@ public class Slingshot : Mechanic
     private LineRenderer _lr;
 
     private Vector3 _mouseWorldPosition;
+    private Vector2 _lastPlayerPosition;
     CharacterController _controller;
 
     private bool _shot = false;
 
+    public GameObject workerPrefab;
 
     protected override void Start() {
         base.Start();
@@ -46,6 +48,7 @@ public class Slingshot : Mechanic
             _mechanicAnimator.SetBool("is_slingshotting", false);
             _controller.enabled = true;
             _controller.ToggleMovement(true);
+            Instantiate(workerPrefab, transform.position, Quaternion.identity);
 
             _lr.positionCount = 0;
             Finish();
@@ -64,7 +67,14 @@ public class Slingshot : Mechanic
             _controlling = false;
             _mechanicAnimator.SetBool("is_slingshotting", false);
             _inMechanic = false;
+            _lastPlayerPosition = transform.position;
+            Invoke("createAntWorker", 0.5f);        
         }
+    }
+
+    public void createAntWorker() {
+        GameObject workerAnt = workerPrefab;
+        workerAnt = Instantiate(workerAnt, _lastPlayerPosition, Quaternion.identity);
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
