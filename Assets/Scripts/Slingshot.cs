@@ -49,11 +49,14 @@ public class Slingshot : Mechanic
             _controller.enabled = true;
             _controller.ToggleMovement(true);
             Instantiate(workerPrefab, transform.position, Quaternion.identity);
+
+            _lr.positionCount = 0;
             Finish();
         }
 
 
         var mousePosition = Input.mousePosition;
+        mousePosition.z = Camera.main.farClipPlane;
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         if (Input.GetButtonDown("Fire1")) {
