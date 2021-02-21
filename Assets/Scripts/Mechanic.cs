@@ -21,11 +21,15 @@ public abstract class Mechanic : MonoBehaviour
     public int cost = 1;
     public bool _inMechanic = false;
 
+    private AudioSource _audioSource;
+    [SerializeField]
+    private AudioClip[] hips_hups;
 
     protected Animator _mechanicAnimator;
 
     protected virtual void Start() {
         _mechanicAnimator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
         enabled = false;
     }
 
@@ -37,6 +41,7 @@ public abstract class Mechanic : MonoBehaviour
     public void StartMechanic() {
         _inMechanic = true;
         enabled = true;
+        _audioSource.PlayOneShot(hips_hups[Random.Range(0, hips_hups.Length)]);
         _mechanicAnimator.SetTrigger("start_mechanic");
         onStartCallback();
     }

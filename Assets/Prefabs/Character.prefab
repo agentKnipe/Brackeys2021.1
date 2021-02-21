@@ -124,6 +124,18 @@ MonoBehaviour:
   key: 49
   cost: 1
   _inMechanic: 0
+  hips_hups:
+  - {fileID: 8300000, guid: f693091ae9f554c4494079a8e125d03f, type: 3}
+  - {fileID: 8300000, guid: f5251f4e6ad31784ab465437d1d08e7b, type: 3}
+  - {fileID: 8300000, guid: 5269ea1be6667c04baf47e3f4626a347, type: 3}
+  - {fileID: 8300000, guid: db4bd8a88af6860498c7acc688ce2c65, type: 3}
+  - {fileID: 8300000, guid: 7545b6479992a694d8720ecf1a28a2dd, type: 3}
+  - {fileID: 8300000, guid: c1cc72c88c15ad04f9ba0cb86579adff, type: 3}
+  - {fileID: 8300000, guid: 11dfaa49107be84418461136d87a12dc, type: 3}
+  - {fileID: 8300000, guid: 2450b163b71fa484d96e95cbe43896ac, type: 3}
+  - {fileID: 8300000, guid: c0763784196d9bc4fa5055ec5eba46ab, type: 3}
+  - {fileID: 8300000, guid: cd0ec92a84cf43a4395427882860160d, type: 3}
+  - {fileID: 8300000, guid: d69025ae72d3e334cb73bad50a23a307, type: 3}
   _maxSlingForce: 10
   _slingForceMultiplier: 2.5
   _platformLayerMask:
@@ -265,7 +277,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1061610099
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Positions:
   - {x: 0, y: 0, z: 1}
@@ -334,7 +346,7 @@ SortingGroup:
   m_GameObject: {fileID: 1869421484438120043}
   m_Enabled: 1
   m_SortingLayerID: 1279258109
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
 --- !u!82 &-5341268993215643891
 AudioSource:
