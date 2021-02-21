@@ -156,18 +156,18 @@ public class CharacterController : MonoBehaviour{
             _platformLayerMask
         );
 
-        RaycastHit2D raycastHit2 = Physics2D.BoxCast(
-            _circleCollider2D.bounds.center,
-            _circleCollider2D.bounds.size/100,
-            0f,
-            transform.right,
-            wallRayLength,
-            _platformLayerMask
-        );
+        // RaycastHit2D raycastHit = Physics2D.BoxCast(
+        //     _circleCollider2D.bounds.center,
+        //     _circleCollider2D.bounds.size/100,
+        //     0f,
+        //     transform.right,
+        //     wallRayLength,
+        //     _platformLayerMask
+        // );
 
         // Draws a gizmo for the ray that is cast to determine whether we are next to a wall
         Debug.DrawRay(_circleCollider2D.bounds.center, -transform.right * wallRayLength, Color.blue);
-        return raycastHit.collider != null || raycastHit2.collider != null;
+        return raycastHit.collider != null; //|| raycastHit2.collider != null;
     }
 
     private void Move() {
