@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1869421484438120045}
   - component: {fileID: 1869421484438120034}
   - component: {fileID: 1463840012}
+  - component: {fileID: 892255202}
   m_Layer: 0
   m_Name: Character
   m_TagString: Player
@@ -122,11 +123,13 @@ MonoBehaviour:
   cost: 1
   _inMechanic: 0
   _maxSlingForce: 10
-  _slingForceMultiplier: 1.5
+  _slingForceMultiplier: 2.5
   _platformLayerMask:
     serializedVersion: 2
     m_Bits: 256
   _airRotationSpeed: 60
+  workerPrefab: {fileID: 4340198264227478674, guid: e0c5d403cbe32bc4cb83a602b828cdbd,
+    type: 3}
 --- !u!50 &1869421484438120041
 Rigidbody2D:
   serializedVersion: 4
@@ -242,7 +245,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1061610099
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 10
   m_Positions:
   - {x: 0, y: 0, z: 1}
@@ -302,3 +305,14 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!210 &892255202
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869421484438120043}
+  m_Enabled: 1
+  m_SortingLayerID: 613834019
+  m_SortingLayer: 3
+  m_SortingOrder: 0

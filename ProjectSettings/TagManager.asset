@@ -51,6 +51,12 @@ TagManager:
   - name: Objects
     uniqueID: 613834019
     locked: 0
+  - name: Player
+    uniqueID: 1279258109
+    locked: 0
   - name: ShroudingEffect
     uniqueID: 1061610099
+    locked: 0
+  - name: UI
+    uniqueID: 3051416739
     locked: 0
