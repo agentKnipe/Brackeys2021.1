@@ -60,6 +60,7 @@ public class CharacterController : MonoBehaviour{
         for(int i = 0; i < 4; i++) {
             CheckIfShouldRotate();
         }
+        _rigidbody.velocity = Vector2.zero;
         canMove = toggle;
     }
 
