@@ -36,7 +36,6 @@ public class AntController : MonoBehaviour{
 
     // Start is called before the first frame update
     void Start() {
-        _facingRight = false;
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
         //_speechText = GetComponent<Text>();
