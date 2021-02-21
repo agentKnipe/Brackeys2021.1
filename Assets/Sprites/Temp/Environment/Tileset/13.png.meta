@@ -50,7 +50,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: 1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -76,7 +76,9 @@ TextureImporter:
     sprites: []
     outline: []
     physicsShape:
-    - - {x: -64, y: 38.5}
+    - - {x: -60, y: 46.5}
+      - {x: -63, y: 43.5}
+      - {x: -64, y: 39.5}
       - {x: -64, y: 17.5}
       - {x: -50, y: -4.5}
       - {x: 31, y: -46.5}
