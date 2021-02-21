@@ -35,7 +35,7 @@ public class CharacterController : MonoBehaviour{
 
     [Tooltip("How far ahead of the ant the raycasts will look for determining whether to stick to the next wall")]
     [SerializeField]
-    float wallRayLength = 0.3f;
+    float wallRayLength = 0.5f;
 
     [SerializeField]
     private LayerMask _waterLayerMask;
