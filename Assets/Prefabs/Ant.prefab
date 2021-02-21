@@ -356,6 +356,7 @@ GameObject:
   - component: {fileID: 4340198264227478675}
   - component: {fileID: 2259691942481794169}
   - component: {fileID: 381975414821534862}
+  - component: {fileID: 2895161080691892969}
   m_Layer: 0
   m_Name: Ant
   m_TagString: Untagged
@@ -551,3 +552,14 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!210 &2895161080691892969
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4340198264227478674}
+  m_Enabled: 1
+  m_SortingLayerID: 1279258109
+  m_SortingLayer: 4
+  m_SortingOrder: 0
