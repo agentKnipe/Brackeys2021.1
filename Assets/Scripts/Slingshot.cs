@@ -56,7 +56,7 @@ public class Slingshot : Mechanic
 
 
         var mousePosition = Input.mousePosition;
-        mousePosition.z = Camera.main.farClipPlane;
+        mousePosition.z = -Camera.main.transform.position.z;
         _mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         if (Input.GetButtonDown("Fire1")) {
@@ -68,7 +68,7 @@ public class Slingshot : Mechanic
             _mechanicAnimator.SetBool("is_slingshotting", false);
             _inMechanic = false;
             _lastPlayerPosition = transform.position;
-            Invoke("createAntWorker", 0.5f);        
+            Invoke("createAntWorker", 0.5f);
         }
     }
 
@@ -121,6 +121,7 @@ public class Slingshot : Mechanic
         Debug.DrawLine(transform.position, position, Color.black);
 
         Vector2 direction = _mouseWorldPosition - position;
+        Debug.Log(_mouseWorldPosition);
         var slingForce = direction * _slingForceMultiplier;
         slingForce = Vector2.ClampMagnitude(slingForce, _maxSlingForce);
 
