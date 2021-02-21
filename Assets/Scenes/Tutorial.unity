@@ -8215,6 +8215,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Strawberry
       objectReference: {fileID: 0}
+    - target: {fileID: 6167159731084295373, guid: 379a6e73d38e91c4da238acc092d6956,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6190144101728769162, guid: 379a6e73d38e91c4da238acc092d6956,
         type: 3}
       propertyPath: m_RootOrder
