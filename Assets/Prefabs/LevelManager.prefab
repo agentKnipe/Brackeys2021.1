@@ -3057,6 +3057,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _antCount: {fileID: 3395558950808324065}
   AntCount: 0
+  collectPop: {fileID: 0}
 --- !u!114 &3395558951656731605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3072,6 +3073,7 @@ MonoBehaviour:
   PausePanel: {fileID: 4350775059049400845}
   DeathPanel: {fileID: 1795555338}
   LevelClearedPanel: {fileID: 459722100}
+  waterDeath: {fileID: 8300000, guid: 8dbf297c4b2f2ad4d9818fdb1068d998, type: 3}
 --- !u!212 &3395558951656731603
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3336,7 +3338,7 @@ SortingGroup:
   m_GameObject: {fileID: 3395558951441470709}
   m_Enabled: 1
   m_SortingLayerID: -1243550557
-  m_SortingLayer: 6
+  m_SortingLayer: 9
   m_SortingOrder: 0
 --- !u!1 &3395558951487692211
 GameObject:
