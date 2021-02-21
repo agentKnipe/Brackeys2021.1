@@ -146,17 +146,29 @@ public class CharacterController : MonoBehaviour{
     }
 
     private bool isFacingWall() {
+        RaycastHit2D raycastHit;
         // Looking in both directions as there is a bug which makes the rotation do crazy stuff.
-        RaycastHit2D raycastHit = Physics2D.BoxCast(
-            _circleCollider2D.bounds.center,
-            _circleCollider2D.bounds.size/100,
-            0f,
-            -transform.right,
-            wallRayLength,
-            _platformLayerMask
-        );
+        if(_facingRight) {
+            raycastHit = Physics2D.BoxCast(
+                _circleCollider2D.bounds.center,
+                _circleCollider2D.bounds.size/100,
+                0f,
+                transform.right,
+                wallRayLength,
+                _platformLayerMask
+            );
+        } else {
+            raycastHit = Physics2D.BoxCast(
+                _circleCollider2D.bounds.center,
+                _circleCollider2D.bounds.size/100,
+                0f,
+                -transform.right,
+                wallRayLength,
+                _platformLayerMask
+            );
+        }
 
-        // RaycastHit2D raycastHit = Physics2D.BoxCast(
+        // RaycastHit2D raycastHit2 = Physics2D.BoxCast(
         //     _circleCollider2D.bounds.center,
         //     _circleCollider2D.bounds.size/100,
         //     0f,
@@ -167,7 +179,7 @@ public class CharacterController : MonoBehaviour{
 
         // Draws a gizmo for the ray that is cast to determine whether we are next to a wall
         Debug.DrawRay(_circleCollider2D.bounds.center, -transform.right * wallRayLength, Color.blue);
-        return raycastHit.collider != null; //|| raycastHit2.collider != null;
+        return raycastHit.collider != null;// || raycastHit2.collider != null;
     }
 
     private void Move() {
