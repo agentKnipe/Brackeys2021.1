@@ -13,13 +13,16 @@ public class LevelManager : MonoBehaviour{
     [SerializeField]
     private Text _antCount;
 
-    public int AntCount = 5;
+    public int AntCount = 0;
 
     public static LevelManager LevelManagerInstance { 
         get {
             return _levelManager;
         } 
     }
+
+    // Audio Clips
+    public AudioClip collectPop;
 
     private void Awake() {
         if(_levelManager != null && _levelManager == this) {
@@ -43,7 +46,13 @@ public class LevelManager : MonoBehaviour{
     }
 
     public void LevelCleared() {
-        _popupMenu.LevelCleared();
+        var sources = GetComponents<AudioSource>();
+
+        foreach (var audio in sources) {
+            audio.Stop();
+        }
+
+        _popupMenu.LevelCleared();      
     }
 
     public void PlayerDied() {
@@ -61,14 +70,14 @@ public class LevelManager : MonoBehaviour{
             _destroyedInstances.Add(instanceID);
 
             AntCount += 1;
-
+            AudioSource audioSource = GetComponent<AudioSource>();
+            audioSource.PlayOneShot(collectPop, 0.7f);
             UpdateCount();
         }
     }
 
     public void ExpendAnts(int ants) {
         AntCount -= ants;
-
         UpdateCount();
     }
 

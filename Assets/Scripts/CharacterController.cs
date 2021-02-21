@@ -94,8 +94,8 @@ public class CharacterController : MonoBehaviour{
         _rigidbody.AddForce(new Vector2(xForce, yForce));
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.otherCollider.IsTouchingLayers(_waterLayerMask.value)) {
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.tag == "Water") {
             LevelManager.LevelManagerInstance.PlayerDied();
         }
     }

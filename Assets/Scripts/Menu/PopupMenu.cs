@@ -22,7 +22,6 @@ public class PopupMenu : MonoBehaviour
         if (Input.GetButtonDown("Cancel")) {
             PauseGame();
         }
-
     }
 
     public void DeathPopup() {
@@ -35,6 +34,8 @@ public class PopupMenu : MonoBehaviour
 
     public void LevelCleared() {
         LevelClearedPanel.SetActive(!LevelClearedPanel.activeSelf);
+        var audioSource = LevelClearedPanel.GetComponentInChildren<AudioSource>();
+        audioSource.Play();
         PauseGameTime();
 
         var currentBuildIndex = SceneManager.GetActiveScene().buildIndex;
@@ -62,6 +63,8 @@ public class PopupMenu : MonoBehaviour
 
     public void PauseGame() {
         PausePanel.SetActive(!PausePanel.activeSelf);
+        var audioSource = PausePanel.GetComponentInChildren<AudioSource>();
+        audioSource.Play();
 
         PauseGameTime();
     }
