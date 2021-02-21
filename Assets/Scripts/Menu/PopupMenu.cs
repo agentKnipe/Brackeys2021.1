@@ -17,6 +17,8 @@ public class PopupMenu : MonoBehaviour
     [SerializeField]
     private GameObject LevelClearedPanel; //Maybe not the best name?
 
+    public AudioClip waterDeath;
+
     // Update is called once per frame
     void Update() {
         if (Input.GetButtonDown("Cancel")) {
@@ -26,8 +28,11 @@ public class PopupMenu : MonoBehaviour
 
     public void DeathPopup() {
         DeathPanel.SetActive(!DeathPanel.activeSelf);
+
+        
         var audioSource = DeathPanel.GetComponentInChildren<AudioSource>();
         audioSource.Play();
+        audioSource.PlayOneShot(waterDeath, 0.7f);
 
         PauseGameTime();
     }
