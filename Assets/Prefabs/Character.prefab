@@ -187,7 +187,7 @@ MonoBehaviour:
   _platformLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  wallRayLength: 0.8
+  wallRayLength: 0.45
   _waterLayerMask:
     serializedVersion: 2
     m_Bits: 16
