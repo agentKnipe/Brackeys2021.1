@@ -5290,7 +5290,7 @@ SortingGroup:
   m_GameObject: {fileID: 954012462}
   m_Enabled: 1
   m_SortingLayerID: -1978215075
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
 --- !u!4 &973161964 stripped
 Transform:
@@ -5955,7 +5955,7 @@ SortingGroup:
   m_GameObject: {fileID: 1484643552}
   m_Enabled: 1
   m_SortingLayerID: 1279258109
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
 --- !u!4 &1555967700 stripped
 Transform:

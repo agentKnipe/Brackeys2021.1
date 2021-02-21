@@ -15,6 +15,9 @@ public class MechanicController : MonoBehaviour
     Animator characterAnimator;
     private LevelManager _levelManager;
     private bool _inMechanic = false;
+    [SerializeField]
+    private AudioClip poofSound;
+    private AudioSource _audioSource;
 
 
     // Start is called before the first frame update
@@ -22,7 +25,7 @@ public class MechanicController : MonoBehaviour
     {
         characterAnimator = GetComponent<Animator>();
         _levelManager = LevelManager.LevelManagerInstance;
-
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private bool CanAffordMechanic(Mechanic m) {
@@ -51,6 +54,7 @@ public class MechanicController : MonoBehaviour
         } else {
             _levelManager.ExpendAnts(m.cost);
             ParticleSystem effect = Instantiate(poofEffect, transform.position, transform.rotation);
+            _audioSource.PlayOneShot(poofSound);
             effect.gameObject.transform.localScale *= m.size;
             yield return new WaitForSeconds(m.delay);
             m.StartMechanic();
