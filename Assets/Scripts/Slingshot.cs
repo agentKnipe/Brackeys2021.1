@@ -28,11 +28,18 @@ public class Slingshot : Mechanic
 
     public GameObject workerPrefab;
 
+    private AudioSource _audioSource;
+    [SerializeField]
+    private AudioClip[] wheeSounds;
+    [SerializeField]
+    private AudioClip slingshotSound;
+
     protected override void Start() {
         base.Start();
         _rb = GetComponent<Rigidbody2D>();
         _lr = GetComponent<LineRenderer>();
         _controller = GetComponent<CharacterController>();
+        _audioSource = GetComponent<AudioSource>();
 
     }
 
@@ -62,6 +69,8 @@ public class Slingshot : Mechanic
         if (Input.GetButtonDown("Fire1")) {
             _lr.enabled = false;
             _shot = true;
+            _audioSource.PlayOneShot(wheeSounds[Random.Range(0, wheeSounds.Length)]);
+            _audioSource.PlayOneShot(slingshotSound);
             FireSlingshot();
 
             _controlling = false;
